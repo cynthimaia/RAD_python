@@ -1,12 +1,25 @@
 import sqlite3
-banco = sqlite3.connect("database.db")
+banco = sqlite3.connect('database.db')
+banco.execute("PRAGMA foreign_keys=on")
 cursor = banco.cursor()
-# para escrever em sql.
-#cursor.execute("CREATE TABLE cliente(nome text, idade integer, sext text)")
-#inserir dados
-cursor.execute("INSERT INTO cliente VALUES('Cynhtia', 29, 'f'), ('pedro', 20,'m')")
-banco.commit() #confirmar alterações no banco de dados
-cursor.execute("Select * from cliente")
-print(cursor.fetchall()) #retonar todos os registros
-cursor.close()
-banco.close()
+cursor.execute('''CREATE TABLE IF NOT EXISTS Pessoa(cpf INTEGER PRIMARY KEY,
+               nome TEXT NOT NULL,
+               nascimento DATE NOT NULL,
+               oculos BOOLEAN NOT NULL
+               );''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS Marca(id INTEGER PRIMARY KEY,
+               nome TEXT NOT NULL,
+               sigla CHARACTER(2) NOT NULL
+               )
+''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS Veiculo        (placa CHARACTER(7) NOT NULL, 
+               ano INTEGER NOT NULL,
+               cor TEXT NOT NULL,
+               proprietario INTEGER NOT NULL,
+               marca INTEGER NOT NULL,
+               PRIMARY KEY(placa),
+               FOREIGN KEY(proprietario) REFERENCES Pessoa(cpf),
+               FOREIGN KEY(marca) REFERENCES Marca(id)
+               );
+''')
+
