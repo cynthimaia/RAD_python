@@ -27,21 +27,40 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS Veiculo(
 ''')
 #cursor.execute('''ALTER TABLE Veiculo ADD motor REAL;''')
 #insersão de dados - query dinâmicas
-"""comando = '''INSERT INTO Pessoa(cpf,nome, nascimento, oculos) VALUES (?,?,?,?)'''"""
+comando = '''INSERT INTO Pessoa(cpf,nome, nascimento, oculos) VALUES (?,?,?,?)'''
 """pessoa = Pessoa(92345678900,"Pedro", "2000-01-31", True)
-#print(pessoa.usa_oculos)
-cursor.execute(comando,(pessoa.cpf, pessoa.nome, pessoa.nascimento, pessoa.usa_oculos) )"""
+#print(pessoa.nome)
+cursor.execute(comando,(pessoa.cpf, pessoa.nome, pessoa.nascimento, pessoa.usa_oculos))"""
 #criar uma lista de objetos Pessoa
 """pessoas = [Pessoa(12345678900,"Joao", "200-01-31",True),
 Pessoa(98765432100,"Cynhtia", "1995-03-10", False)]
 cursor.executemany(comando,[(i.cpf, i.nome,i.nascimento, i.usa_oculos) for i in pessoas])"""
-
 #outra forma de inserir
-#pessoa = Pessoa(30345676900,"Carlos","2000-01-31", True)
-comando = '''INSERT INTO Pessoa(cpf,nome,nascimento,oculos) VALUES(:cpf, :nome, :nascimento,:usa_oculos)'''
-"""cursor.execute(comando,{"cpf":pessoa.cpf,"nome":pessoa.nome,"nascimento":pessoa.nascimento,"usa_oculos":pessoa.usa_oculos})"""
-"""pessoa = Pessoa(60345676900,"Joao","2000-01-31",False)
+"""pessoa = Pessoa(30345676900,"Carlos","2000-01-31", True)"""
+"""comando = '''INSERT INTO Pessoa(cpf,nome,nascimento,oculos) VALUES(:cpf, :nome, :nascimento,:usa_oculos)'''"""
+"""cursor.execute(comando,{"cpf":pessoa.cpf,"nome":pessoa.nome,"nascimento":pessoa.nascimento,"usa_oculos":pessoa.usa_oculos})
+pessoa = Pessoa(60345676900,"Joao","2000-01-31",False)
 cursor.execute(comando, vars(pessoa))
 print(vars(pessoa))"""
-
+#adicionar Marca
+"""comando1 = '''INSERT INTO Marca(nome,sigla) VALUES (:nome, :sigla)'''
+marcaA = Marca("Marca A", "MA")
+cursor.execute(comando1, vars(marcaA))
+marcaA.id= cursor.lastrowid #armazenar o id da linha do ultimo registro do banco
+marcaB = Marca("marcaB", "MB")
+cursor.execute(comando1, vars(marcaB))
+marcaB.id = cursor.lastrowid"""
+#Adicionar Veiuclo
+"""comando2 = '''INSERT INTO Veiculo(placa,ano,cor, motor, proprietario,marca) VALUES(:placa, :ano, :cor, :motor, :proprietario, :marca)'''
+veiculo1 = Veiculo("AABB001","2001","Prata", 1.0,12345678900,1)
+veiculo2 = Veiculo("BAB001","2002","Preto",1.4,98765432100,2)
+cursor.execute(comando2,vars(veiculo1))
+cursor.execute(comando2,vars(veiculo2))"""
+comando3 = '''SELECT Pessoa.nome, Marca.nome FROM Pessoa JOIN Veiculo ON Pessoa.cpf = Veiculo.Proprietario JOIN Marca ON Marca.id = Veiculo.marca WHERE Marca.nome = :nome;'''
+cursor.execute(comando3,{"nome":"marcaB"})
+registros = cursor.fetchall()
+print(registros)
 banco.commit()
+#fechamento do cursor e da conexão
+cursor.close()
+banco.close()
