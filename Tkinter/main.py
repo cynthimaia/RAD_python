@@ -13,6 +13,9 @@ class PrincipalBD():
         self.treeProdutos.heading("nome", text="Nome:")
         self.treeProdutos.heading("preço",text= "Preço:")
         self.treeProdutos.pack()
+
+        self.ExibirTela()
+
         self.lnome = tk.Label(self.janela, text="Nome:")
         self.lnome.pack()
         self.entrynome = tk.Entry(self.janela)
@@ -21,6 +24,58 @@ class PrincipalBD():
         self.lpreco.pack()
         self.entrypreco = tk.Entry(self.janela)
         self.entrypreco.pack()
+
+        self.btnCadastrar = tk.Button(self.janela, text="Adicionar Produtos", command=self.CadastrarProduto)
+        self.btnCadastrar.pack()
+
+        self.bntAtualizarProduto = tk.Button(self.janela, text="Atualizar", command=self.AtualizarProduto)
+        self.bntAtualizarProduto.pack()
+
+    def ExibirTela(self):
+        try:
+            self.treeProdutos.delete(*self.treeProdutos.get_children()) 
+            products = self.objBD.select_all_products()
+            #print(products)
+            for product in products:
+                print(product)
+                self.treeProdutos.insert("", tk.END, values=product)
+        except:
+            print("Não foi possivel exibir os campos.")
+
+    def CadastrarProduto(self):
+        try:
+            name = self.entrynome.get()
+            price = float(self.entrypreco.get())
+            self.objBD.inserirDados(name, price)
+            print(f'Produto cadastrado: nome - {name}, preço - {price}')
+            #limpar entradas após o cadastro
+            self.entrynome.delete(0, tk.END)
+            self.entrypreco.delete(0, tk.END)
+            self.ExibirTela()
+            print('Produto cadastrado com sucesso')
+        except:
+            print("Não foi possivel fazer o cadastro!")
+    def AtualizarProduto(self):
+        try:
+            selected_item = self.treeProdutos.selection() 
+            if not selected_item:
+                return 
+            item = self.treeProdutos.item(selected_item)
+            print(item)
+            product = item['values']
+            print(product)
+            product_id = product[0]
+            nome = self.entryNome.get()
+            preco = float(self.entryPreco.get())
+            self.ObjBD.update_product(product_id, nome, preco)
+            self.ExibirTela()
+
+            self.entryNome.delete(0, tk.END)
+            self.entryPreco.delete(0, tk.END)
+            print("Produto atualizado com sucesso!")
+        except:
+            print("Não foi possivel fazer a atualização!")
+
 
 
 janela = tk.Tk() #criação da janela principal
