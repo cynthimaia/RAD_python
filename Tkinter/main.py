@@ -28,9 +28,6 @@ class PrincipalBD():
         self.btnCadastrar = tk.Button(self.janela, text="Adicionar Produtos", command=self.CadastrarProduto)
         self.btnCadastrar.pack()
 
-        self.bntAtualizarProduto = tk.Button(self.janela, text="Atualizar", command=self.AtualizarProduto)
-        self.bntAtualizarProduto.pack()
-
     def ExibirTela(self):
         try:
             self.treeProdutos.delete(*self.treeProdutos.get_children()) 
@@ -55,26 +52,8 @@ class PrincipalBD():
             print('Produto cadastrado com sucesso')
         except:
             print("Não foi possivel fazer o cadastro!")
-    def AtualizarProduto(self):
-        try:
-            selected_item = self.treeProdutos.selection() 
-            if not selected_item:
-                return 
-            item = self.treeProdutos.item(selected_item)
-            print(item)
-            product = item['values']
-            print(product)
-            product_id = product[0]
-            nome = self.entryNome.get()
-            preco = float(self.entryPreco.get())
-            self.ObjBD.update_product(product_id, nome, preco)
-            self.ExibirTela()
+    
 
-            self.entryNome.delete(0, tk.END)
-            self.entryPreco.delete(0, tk.END)
-            print("Produto atualizado com sucesso!")
-        except:
-            print("Não foi possivel fazer a atualização!")
 
 
 
