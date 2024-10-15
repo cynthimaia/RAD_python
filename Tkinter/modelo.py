@@ -77,7 +77,7 @@ class AppBD():
         delete_query = "DELETE FROM products WHERE id = ?"
         try:
             cursor = self.connection.cursor()
-            cursor.execute(delete_query, (product_id))
+            cursor.execute(delete_query, (product_id,))
             self.connection.commit()
             print('Produto deletado com sucesso')
         except sqlite3.Error as error:

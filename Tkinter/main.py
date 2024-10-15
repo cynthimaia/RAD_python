@@ -28,6 +28,12 @@ class PrincipalBD():
         self.btnCadastrar = tk.Button(self.janela, text="Adicionar Produtos", command=self.CadastrarProduto)
         self.btnCadastrar.pack()
 
+        self.btnAtualizar = tk.Button(self.janela, text="Atualizar", command=self.AtualizarProduto)
+        self.btnAtualizar.pack()
+
+        self.btnExcluir = tk.Button(self.janela, text="Excluir", command=self.ExcluirProduto)
+        self.btnExcluir.pack()
+
     def ExibirTela(self):
         try:
             self.treeProdutos.delete(*self.treeProdutos.get_children()) 
@@ -70,9 +76,23 @@ class PrincipalBD():
 
             self.entrynome.delete(0, tk.END)
             self.entrypreco.delete(0, tk.END)
-
         except:
             print('Não foi possivel fazer a atualização')
+    def ExcluirProduto(self):
+        try:
+            selected_item = self.treeProdutos.selection()
+            if not selected_item:
+                return
+            item = self.treeProdutos.item(selected_item)
+            print(item)
+            product = item['values']
+            print(product)
+            product_id = product[0]
+            self.objBD.delete_product(product_id)
+            self.ExibirTela()
+            print("Produto excluido com sucesso!")
+        except:
+            print("Não foi possivel excluir")
     
 
 
