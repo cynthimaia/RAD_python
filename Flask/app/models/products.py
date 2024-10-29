@@ -10,6 +10,15 @@ class Products(db.Model):
         #é chamado quando cria uma nova instancia de Products
         self.name = name
         self.price = price
+    
+    def list_id(self, product_id):
+        try:
+            products = db.session.query(Products).filter(Products.id == product_id).all()
+            products_dict = [{'id': product.id, 'name': product.name, 'price': product.price} for product in products]
+            return products_dict
+        except Exception as e:
+            print(e)
+
     def save_products(self, name, price):
         try:
             add_banco = Products(name, price)

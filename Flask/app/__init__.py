@@ -13,9 +13,10 @@ from app.models.products import Products
 with app.app_context(): #contexto da aplicação
     db.create_all()
 
-from app.view.reso_products import Index
+from app.view.reso_products import Index,ProductCreate, ProductUpdate, ProductDelete
 api.add_resource(Index, "/")
-
+api.add_resource(ProductCreate, "/create")
+api.add_resource(ProductDelete, "/delete")
 
 '''@app.route("/index")
 def index():
