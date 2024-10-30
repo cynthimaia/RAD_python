@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário e Requisição AJAX</title>
+</head>
+<body>
+    <h2>Formulário</h2>
+    <form id="meuFormulario">
+        <label for="nome">Nome:</label><br> <!--este rótulo está associado ao campo de entrada que tem o ID "nome" -->
+        <input type="text" id="nome" name="nome"><br>
+        <label for="preco">Preço:</label><br>
+        <input type="number" id="preco" name="preco"><br><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <div id="resposta"></div> <!-- fornecer um local na página onde o conteúdo dinâmico pode ser inserido e exibido. -->
+
+    <script src="main.js"></script> <!-- incluir um arquivo JavaScript externo chamado "main.js -->
+</body>
+</html>
